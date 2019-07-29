@@ -213,3 +213,9 @@ See [usage docs](https://github.com/spotify/dockerfile-maven/blob/master/docs/us
 ## Authentication
 
 See [authentication docs](https://github.com/spotify/dockerfile-maven/blob/master/docs/authentication.md).
+
+## Releasing
+
+`mvn clean [-B -Dinvoker.skip -DskipTests -Darguments='-Dinvoker.skip -DskipTests'] \
+  -Dgpg.keyname=<key ID used for signing artifacts> \
+  release:clean release:prepare release:perform`
