@@ -61,6 +61,7 @@ public class TestRepoNameValidation {
     assertFalse("Starting slash didn't fail", BuildMojo.validateRepository("/atstart"));
     assertFalse("Ending slash didn't fail", BuildMojo.validateRepository("atend/"));
     assertFalse("Only port", BuildMojo.validateRepository(":443"));
-    assertFalse("Port exceeding range", BuildMojo.validateRepository("example.com:100000/myproject"));
+    assertFalse(
+        "Port exceeding range", BuildMojo.validateRepository("example.com:100000/myproject"));
   }
 }
