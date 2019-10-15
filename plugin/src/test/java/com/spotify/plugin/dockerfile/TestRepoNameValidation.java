@@ -47,6 +47,7 @@ public class TestRepoNameValidation {
     assertTrue("Start and end with dots", BuildMojo.validateRepository(".start.and.end."));
     assertTrue("Start and end with hyphens", BuildMojo.validateRepository("-start-and-end-"));
     assertTrue("Start and end with underscores", BuildMojo.validateRepository("_start_and_end_"));
+    assertTrue("May contain port", BuildMojo.validateRepository("example.com:443/okay./.path"));
     // Forward slash delimits the repo user from the repo name; strictly speaking,
     // you're allowed only one slash, somewhere in the middle.
     assertTrue("Multipart", BuildMojo.validateRepository("with/forwardslash"));
@@ -59,5 +60,8 @@ public class TestRepoNameValidation {
     assertFalse("Symbols didn't fail", BuildMojo.validateRepository("ddddddDd+dddd"));
     assertFalse("Starting slash didn't fail", BuildMojo.validateRepository("/atstart"));
     assertFalse("Ending slash didn't fail", BuildMojo.validateRepository("atend/"));
+    assertFalse("Only port", BuildMojo.validateRepository(":443"));
+    assertFalse(
+        "Port exceeding range", BuildMojo.validateRepository("example.com:100000/myproject"));
   }
 }
