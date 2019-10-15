@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.4.13 (October 15 2019)
+- [**closed**] #308 Extend repository validation by allowing port number. [#309](https://github.com/spotify/dockerfile-maven/pull/309)
+- [**closed**] doc [#318](https://github.com/spotify/dockerfile-maven/pull/318)
+
+## v1.4.12 (July 29 2019)
+- [**closed**] Upgrade docker-client dep from 8.14.5 to 8.16.0 [#307](https://github.com/spotify/dockerfile-maven/pull/307)
+
+## v1.4.11 (July 29 2019)
+- [**closed**] Validation of docker repository names [#275](https://github.com/spotify/dockerfile-maven/pull/275)
+- [**closed**] Update docker-client version to 8.14.5 [#280](https://github.com/spotify/dockerfile-maven/pull/280)
+
 ## 1.4.10 (released January 15 2019)
 - Add support for --squash experimental build option ([248][])
 - Add support for specifying a custom Dockerfile location ([89][])
@@ -71,7 +82,7 @@
 [13]: https://github.com/spotify/dockerfile-maven/pull/13
 [17]: https://github.com/spotify/dockerfile-maven/pull/17
 
-## Earlier releases 
+## Earlier releases
 
 Please check the [list of commits on Github][commits].
 

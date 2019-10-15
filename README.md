@@ -39,7 +39,7 @@ See the [changelog for a list of releases][changelog]
 
 ## Set-up
 
-This plugin requires Java 7 or later and Apache Maven 3 or later (dockerfile-maven-plugin <=1.4.6 needs 
+This plugin requires Java 7 or later and Apache Maven 3 or later (dockerfile-maven-plugin <=1.4.6 needs
 Maven >= 3, and for other cases, Maven >= 3.5.2). To run the integration tests or to use the plugin in practice, a working
 Docker set-up is needed.
 
@@ -216,6 +216,16 @@ See [authentication docs](https://github.com/spotify/dockerfile-maven/blob/maste
 
 ## Releasing
 
-`mvn clean [-B -Dinvoker.skip -DskipTests -Darguments='-Dinvoker.skip -DskipTests'] \
+To cut the Maven release:
+
+```
+mvn clean [-B -Dinvoker.skip -DskipTests -Darguments='-Dinvoker.skip -DskipTests'] \
   -Dgpg.keyname=<key ID used for signing artifacts> \
-  release:clean release:prepare release:perform`
+  release:clean release:prepare release:perform
+```
+
+We use [`gren`](https://github.com/github-tools/github-release-notes#installation) to create Releases in Github:
+
+```
+gren release
+```
