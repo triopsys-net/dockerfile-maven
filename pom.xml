@@ -5,9 +5,10 @@
   <parent>
     <groupId>com.spotify</groupId>
     <artifactId>foss-root</artifactId>
-    <version>6</version>
+    <version>5</version>
   </parent>
 
+  <groupId>ca.vanzyl</groupId>
   <artifactId>dockerfile-maven</artifactId>
   <version>1.4.14-SNAPSHOT</version>
   <packaging>pom</packaging>
@@ -26,10 +27,8 @@
   </properties>
 
   <scm>
-    <connection>scm:git:ssh://git@github.com/spotify/dockerfile-maven.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/spotify/dockerfile-maven.git</developerConnection>
+    <developerConnection>scm:git:https://github.com/jvanzyl/dockerfile-maven.git</developerConnection>
     <tag>HEAD</tag>
-    <url>https://github.com/spotify/dockerfile-maven</url>
   </scm>
 
   <build>
