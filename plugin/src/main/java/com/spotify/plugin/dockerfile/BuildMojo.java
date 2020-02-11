@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -94,7 +94,7 @@ public class BuildMojo extends AbstractDockerMojo {
   /**
    * Updates base images automatically.
    */
-  @Parameter(property = "dockerfile.build.pullNewerImage", defaultValue = "true")
+  @Parameter(property = "dockerfile.build.pullNewerImage", defaultValue = "false")
   private boolean pullNewerImage;
 
   /**
@@ -133,7 +133,7 @@ public class BuildMojo extends AbstractDockerMojo {
       dockerfilePath = dockerfile.toPath();
     }
     final String imageId = buildImage(
-        dockerClient, log, verbose, contextDirectory.toPath(), dockerfilePath, repository, tag, 
+        dockerClient, log, verbose, contextDirectory.toPath(), dockerfilePath, repository, tag,
         pullNewerImage, noCache, buildArgs, cacheFrom, squash);
 
     if (imageId == null) {
@@ -287,7 +287,7 @@ public class BuildMojo extends AbstractDockerMojo {
       }
     }
   }
-  
+
   private static String encodeBuildParam(Object buildParam) throws MojoExecutionException {
     try {
       return URLEncoder.encode(new Gson().toJson(buildParam), "utf-8");
