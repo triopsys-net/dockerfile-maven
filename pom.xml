@@ -10,7 +10,7 @@
 
   <groupId>ca.vanzyl</groupId>
   <artifactId>dockerfile-maven</artifactId>
-  <version>1.4.15-SNAPSHOT</version>
+  <version>1.4.15</version>
   <packaging>pom</packaging>
 
   <name>Dockerfile Maven Support</name>
@@ -28,7 +28,7 @@
 
   <scm>
     <developerConnection>scm:git:https://github.com/jvanzyl/dockerfile-maven.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>v1.4.15</tag>
   </scm>
 
   <build>
