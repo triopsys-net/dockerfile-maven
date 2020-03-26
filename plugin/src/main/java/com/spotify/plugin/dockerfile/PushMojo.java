@@ -2,7 +2,7 @@
  * -\-\-
  * Dockerfile Maven Plugin
  * --
- * Copyright (C) 2016 Spotify AB
+ * Copyright (C) 2016 - 2020 Spotify AB
  * --
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,9 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Mojo(name = "push",
     defaultPhase = LifecyclePhase.DEPLOY,
     requiresProject = true,
@@ -48,6 +51,9 @@ public class PushMojo extends AbstractDockerMojo {
    */
   @Parameter(property = "dockerfile.tag")
   private String tag;
+
+  @Parameter(property = "dockerfile.tags")
+  private List<String> tags;
 
   /**
    * Disables the push goal; it becomes a no-op.
@@ -69,12 +75,18 @@ public class PushMojo extends AbstractDockerMojo {
       repository = readMetadata(Metadata.REPOSITORY);
     }
 
-    // Do this hoop jumping so that the override order is correct
-    if (tag == null) {
-      tag = readMetadata(Metadata.TAG);
-    }
-    if (tag == null) {
-      tag = "latest";
+    List<String> tagsToPush = new ArrayList<>();
+    if (tags != null && !tags.isEmpty()) {
+      tagsToPush.addAll(tags);
+    } else {
+      // Do this hoop jumping so that the override order is correct
+      if (tag == null) {
+        tag = readMetadata(Metadata.TAG);
+      }
+      if (tag == null) {
+        tag = "latest";
+      }
+      tagsToPush.add(tag);
     }
 
     if (repository == null) {
@@ -83,11 +95,14 @@ public class PushMojo extends AbstractDockerMojo {
           + "(specify dockerfile.repository parameter, or run the tag goal before)");
     }
 
-    try {
-      dockerClient
-          .push(formatImageName(repository, tag), LoggingProgressHandler.forLog(log, verbose));
-    } catch (DockerException | InterruptedException e) {
-      throw new MojoExecutionException("Could not push image", e);
+    for(String tagToPush : tagsToPush) {
+      try {
+        dockerClient
+                .push(formatImageName(repository, tagToPush), LoggingProgressHandler.forLog(log, verbose));
+      }
+      catch (DockerException | InterruptedException e) {
+        throw new MojoExecutionException("Could not push image", e);
+      }
     }
   }
 }

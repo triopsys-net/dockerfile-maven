@@ -85,6 +85,9 @@ public class BuildMojo extends AbstractDockerMojo {
   @Parameter(property = "dockerfile.tag", defaultValue = "latest")
   private String tag;
 
+  @Parameter(property = "dockerfile.tag", defaultValue = "latest")
+  private List<String> tags;
+
   /**
    * Disables the build goal; it becomes a no-op.
    */
@@ -125,35 +128,46 @@ public class BuildMojo extends AbstractDockerMojo {
       return;
     }
 
-    log.info("dockerfile: " + dockerfile);
-    log.info("contextDirectory: " + contextDirectory);
-
-    Path dockerfilePath = null;
-    if (dockerfile != null) {
-      dockerfilePath = dockerfile.toPath();
-    }
-    final String imageId = buildImage(
-        dockerClient, log, verbose, contextDirectory.toPath(), dockerfilePath, repository, tag,
-        pullNewerImage, noCache, buildArgs, cacheFrom, squash);
-
-    if (imageId == null) {
-      log.warn("Docker build was successful, but no image was built");
+    List<String> tagsToBuild = new ArrayList<>();
+    if (tags != null && !tags.isEmpty()) {
+      tagsToBuild.addAll(tags);
     } else {
-      log.info(MessageFormat.format("Detected build of image with id {0}", imageId));
-      writeMetadata(Metadata.IMAGE_ID, imageId);
+      tagsToBuild.add(tag);
     }
 
-    // Do this after the build so that other goals don't use the tag if it doesn't exist
-    if (repository != null) {
-      writeImageInfo(repository, tag);
-    }
+    for(String tagToBuild : tagsToBuild) {
+      log.info("dockerfile: " + dockerfile);
+      log.info("contextDirectory: " + contextDirectory);
 
-    writeMetadata(log);
+      Path dockerfilePath = null;
+      if (dockerfile != null) {
+        dockerfilePath = dockerfile.toPath();
+      }
+      final String imageId = buildImage(
+              dockerClient, log, verbose, contextDirectory.toPath(), dockerfilePath, repository, tagToBuild,
+              pullNewerImage, noCache, buildArgs, cacheFrom, squash);
 
-    if (repository == null) {
-      log.info(MessageFormat.format("Successfully built {0}", imageId));
-    } else {
-      log.info(MessageFormat.format("Successfully built {0}", formatImageName(repository, tag)));
+      if (imageId == null) {
+        log.warn("Docker build was successful, but no image was built");
+      }
+      else {
+        log.info(MessageFormat.format("Detected build of image with id {0}", imageId));
+        writeMetadata(Metadata.IMAGE_ID, imageId);
+      }
+
+      // Do this after the build so that other goals don't use the tag if it doesn't exist
+      if (repository != null) {
+        writeImageInfo(repository, tag);
+      }
+
+      writeMetadata(log);
+
+      if (repository == null) {
+        log.info(MessageFormat.format("Successfully built {0}", imageId));
+      }
+      else {
+        log.info(MessageFormat.format("Successfully built {0}", formatImageName(repository, tag)));
+      }
     }
   }
 
