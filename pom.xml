@@ -41,6 +41,7 @@
             <testSourceDirectory>${project.build.testSourceDirectory}</testSourceDirectory>
             <includeTestSourceDirectory>true</includeTestSourceDirectory>
             <violationSeverity>warning</violationSeverity>
+            <skip>true</skip>
           </configuration>
         </plugin>
       </plugins>
