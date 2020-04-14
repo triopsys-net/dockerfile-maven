@@ -224,11 +224,9 @@ public abstract class AbstractDockerMojo extends AbstractMojo {
   private JarArchiver jarArchiver;
 
   /**
-   * Allows disabling of Google Container Registry authentication support. The support is enabled by
-   * default, and should be a no-op (and fail fast) in most non-GCR environments, but this behavior
-   * can be explicitly disabled with this property if needed.
+   * Allows enabling of Google Container Registry authentication support.
    */
-  @Parameter(defaultValue = "true", property = "dockerfile.googleContainerRegistryEnabled")
+  @Parameter(defaultValue = "false", property = "dockerfile.googleContainerRegistryEnabled")
   private boolean googleContainerRegistryEnabled;
 
   /**
