@@ -450,6 +450,7 @@ public abstract class AbstractDockerMojo extends AbstractMojo {
 
     if (useMavenSettingsForAuth) {
       suppliers.add(new MavenRegistryAuthSupplier(session.getSettings(), settingsDecrypter));
+      return new MultiRegistryAuthSupplier(suppliers);
     }
 
     if (dockerConfigFile == null || "".equals(dockerConfigFile.getName())) {
