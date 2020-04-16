@@ -23,6 +23,7 @@ package com.spotify.plugin.dockerfile;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.common.io.Files;
 import com.spotify.docker.client.DefaultDockerClient;
 import com.spotify.docker.client.DockerClient;
@@ -57,6 +58,8 @@ import org.codehaus.plexus.archiver.Archiver;
 import org.codehaus.plexus.archiver.jar.JarArchiver;
 
 public abstract class AbstractDockerMojo extends AbstractMojo {
+
+  public static final String LATEST = "latest";
 
   protected enum Metadata {
     IMAGE_ID("image ID", "image-id"),
@@ -530,5 +533,4 @@ public abstract class AbstractDockerMojo extends AbstractMojo {
 
     return ContainerRegistryAuthSupplier.forCredentials(credentials).build();
   }
-
 }

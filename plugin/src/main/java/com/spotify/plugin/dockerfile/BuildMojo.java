@@ -20,6 +20,8 @@
 
 package com.spotify.plugin.dockerfile;
 
+import static com.spotify.plugin.dockerfile.TagsSelector.select;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gson.Gson;
 import com.spotify.docker.client.DockerClient;
@@ -82,10 +84,10 @@ public class BuildMojo extends AbstractDockerMojo {
   /**
    * The tag to apply when building the Dockerfile, which is appended to the repository.
    */
-  @Parameter(property = "dockerfile.tag", defaultValue = "latest")
+  @Parameter(property = "dockerfile.tag")
   private String tag;
 
-  @Parameter(property = "dockerfile.tag", defaultValue = "latest")
+  @Parameter(property = "dockerfile.tag")
   private List<String> tags;
 
   /**
@@ -128,12 +130,7 @@ public class BuildMojo extends AbstractDockerMojo {
       return;
     }
 
-    List<String> tagsToBuild = new ArrayList<>();
-    if (tags != null && !tags.isEmpty()) {
-      tagsToBuild.addAll(tags);
-    } else {
-      tagsToBuild.add(tag);
-    }
+    List<String> tagsToBuild = select(tags, tag, null);
 
     for(String tagToBuild : tagsToBuild) {
       log.info("dockerfile: " + dockerfile);
@@ -157,7 +154,7 @@ public class BuildMojo extends AbstractDockerMojo {
 
       // Do this after the build so that other goals don't use the tag if it doesn't exist
       if (repository != null) {
-        writeImageInfo(repository, tag);
+        writeImageInfo(repository, tagToBuild);
       }
 
       writeMetadata(log);

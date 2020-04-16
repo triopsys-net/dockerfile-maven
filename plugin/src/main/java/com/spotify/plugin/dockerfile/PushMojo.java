@@ -20,6 +20,8 @@
 
 package com.spotify.plugin.dockerfile;
 
+import static com.spotify.plugin.dockerfile.TagsSelector.select;
+
 import com.spotify.docker.client.DockerClient;
 import com.spotify.docker.client.exceptions.DockerException;
 
@@ -30,7 +32,6 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Mojo(name = "push",
@@ -75,19 +76,7 @@ public class PushMojo extends AbstractDockerMojo {
       repository = readMetadata(Metadata.REPOSITORY);
     }
 
-    List<String> tagsToPush = new ArrayList<>();
-    if (tags != null && !tags.isEmpty()) {
-      tagsToPush.addAll(tags);
-    } else {
-      // Do this hoop jumping so that the override order is correct
-      if (tag == null) {
-        tag = readMetadata(Metadata.TAG);
-      }
-      if (tag == null) {
-        tag = "latest";
-      }
-      tagsToPush.add(tag);
-    }
+    List<String> tagsToPush = select(tags, tag, readMetadata(Metadata.TAG));
 
     if (repository == null) {
       throw new MojoExecutionException(
