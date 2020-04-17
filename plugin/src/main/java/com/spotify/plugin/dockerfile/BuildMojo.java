@@ -163,7 +163,7 @@ public class BuildMojo extends AbstractDockerMojo {
         log.info(MessageFormat.format("Successfully built {0}", imageId));
       }
       else {
-        log.info(MessageFormat.format("Successfully built {0}", formatImageName(repository, tag)));
+        log.info(MessageFormat.format("Successfully built {0}", formatImageName(repository, tagToBuild)));
       }
     }
   }
