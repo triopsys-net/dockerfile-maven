@@ -31,8 +31,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -190,8 +193,8 @@ public class BuildMojo extends AbstractDockerMojo {
 
     final ArrayList<DockerClient.BuildParam> buildParameters = new ArrayList<>();
     if (dockerfile != null) {
-      buildParameters.add(DockerClient.BuildParam.dockerfile(
-          contextDirectory.relativize(dockerfile)));
+      buildParameters.add(DockerClient.BuildParam.create("dockerfile",
+          contextDirectory.relativize(dockerfile).toString().replaceAll("\\\\", "/")));
     }
 
     final LoggingProgressHandler progressHandler = new LoggingProgressHandler(log, verbose);
