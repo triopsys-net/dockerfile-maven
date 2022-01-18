@@ -15,7 +15,7 @@
   <description>Adds support for building Dockerfiles in Maven</description>
 
   <properties>
-    <docker-client.version>8.16.1</docker-client.version>
+    <docker-client.version>8.16.2</docker-client.version>
   </properties>
 
   <dependencyManagement>
@@ -40,7 +40,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>ca.vanzyl</groupId>
+      <groupId>com.xenoamess.docker</groupId>
       <artifactId>docker-client</artifactId>
       <classifier>shaded</classifier>
       <version>${docker-client.version}</version>
@@ -160,7 +160,7 @@
         <version>1.9</version>
         <dependencies>
           <dependency>
-            <groupId>ca.vanzyl</groupId>
+            <groupId>com.xenoamess.docker</groupId>
             <artifactId>docker-client</artifactId>
             <version>${docker-client.version}</version>
           </dependency>
