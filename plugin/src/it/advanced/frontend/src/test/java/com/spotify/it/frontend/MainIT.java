@@ -38,6 +38,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -127,6 +128,7 @@ public class MainIT {
                       + ":" + container.getMappedPort(portNumber));
   }
 
+  @Ignore
   @Test
   public void testVersion() throws Exception {
     String version = requestString(backend.resolve("/api/version"));
