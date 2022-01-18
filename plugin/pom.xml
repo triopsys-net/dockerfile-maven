@@ -3,12 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>ca.vanzyl</groupId>
+    <groupId>com.xenoamess.docker</groupId>
     <artifactId>dockerfile-maven</artifactId>
     <version>1.4.20-SNAPSHOT</version>
   </parent>
 
-  <groupId>ca.vanzyl</groupId>
   <artifactId>dockerfile-maven-plugin</artifactId>
   <packaging>maven-plugin</packaging>
 
@@ -57,9 +56,9 @@
       <version>23.6.1-jre</version>
     </dependency>
     <dependency>
-      <groupId>ca.vanzyl</groupId>
+      <groupId>com.xenoamess.docker</groupId>
       <artifactId>dockerfile-maven-extension</artifactId>
-      <version>1.4.20-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>

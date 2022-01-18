@@ -4,11 +4,10 @@
 
   <parent>
     <artifactId>dockerfile-maven</artifactId>
-    <groupId>ca.vanzyl</groupId>
+    <groupId>com.xenoamess.docker</groupId>
     <version>1.4.20-SNAPSHOT</version>
   </parent>
 
-  <groupId>ca.vanzyl</groupId>
   <artifactId>dockerfile-maven-extension</artifactId>
 
   <name>Dockerfile Maven Extension</name>
