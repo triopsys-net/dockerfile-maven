@@ -42,4 +42,8 @@ jobs:
           distribution: adopt
       - name: Build
         run: |
+          docker swarm init
+          docker version
+          docker info
+          docker pull quay.io/testcontainers/ryuk:0.2.2
           mvn clean install

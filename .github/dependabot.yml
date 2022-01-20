@@ -21,18 +21,6 @@ updates:
       interval: "daily"
     target-branch: "develop"
     open-pull-requests-limit: 100
-  - package-ecosystem: "maven"
-    directory: "/extension/"
-    schedule:
-      interval: "daily"
-    target-branch: "develop"
-    open-pull-requests-limit: 100
-  - package-ecosystem: "maven"
-    directory: "/plugin/"
-    schedule:
-      interval: "daily"
-    target-branch: "develop"
-    open-pull-requests-limit: 100
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
