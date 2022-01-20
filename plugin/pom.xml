@@ -47,7 +47,6 @@
     <dependency>
       <groupId>com.xenoamess.docker</groupId>
       <artifactId>docker-client</artifactId>
-      <classifier>shaded</classifier>
       <version>${docker-client.version}</version>
     </dependency>
     <dependency>
