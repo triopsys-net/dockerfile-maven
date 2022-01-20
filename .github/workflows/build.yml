@@ -42,4 +42,7 @@ jobs:
           distribution: adopt
       - name: Build
         run: |
+          docker swarm init
+          docker version
+          docker info
           mvn clean install
