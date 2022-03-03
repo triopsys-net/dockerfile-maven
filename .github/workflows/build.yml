@@ -45,5 +45,5 @@ jobs:
           docker swarm init
           docker version
           docker info
-          docker pull quay.io/testcontainers/ryuk:0.2.2
+          docker pull testcontainers/ryuk:0.3.3
           mvn clean install
