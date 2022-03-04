@@ -6,7 +6,21 @@
   <artifactId>it-parent</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-
+  
+  <name>it-parent</name>
+  <description>Parent pom for managing plugins used in integration tests</description>
+  
+  <dependencyManagement>  
+    <dependencies>
+      <dependency>
+        <groupId>com.xenoamess.docker</groupId>
+        <artifactId>docker-client</artifactId>
+        <version>8.17.2</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  
   <build>
     <plugins>
       <plugin>
@@ -41,8 +55,21 @@
             <target>1.8</target>
           </configuration>
         </plugin>
+        <plugin>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.2.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.2.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>3.0.0-M5</version>
+        </plugin>
       </plugins>
     </pluginManagement>
+    
   </build>
 
 </project>
