@@ -203,11 +203,11 @@ expected.
 
 ## Usage
 
-See [usage docs](https://github.com/spotify/dockerfile-maven/blob/master/docs/usage.md).
+See [usage docs](docs/usage.md).
 
 ## Authentication
 
-See [authentication docs](https://github.com/spotify/dockerfile-maven/blob/master/docs/authentication.md).
+See [authentication docs](docs/authentication.md).
 
 ## Releasing
 
