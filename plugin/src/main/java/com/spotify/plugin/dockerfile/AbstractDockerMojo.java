@@ -23,7 +23,6 @@ package com.spotify.plugin.dockerfile;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 import com.google.common.io.Files;
 import com.spotify.docker.client.DefaultDockerClient;
 import com.spotify.docker.client.DockerClient;
@@ -300,7 +299,7 @@ public abstract class AbstractDockerMojo extends AbstractMojo {
     }
 
     try {
-      Files.write(value + "\n", metadataFile, Charsets.UTF_8);
+      Files.asCharSink(metadataFile, Charsets.UTF_8).write(value + "\n");
     } catch (IOException e) {
       final String message =
           MessageFormat.format("Could not write {0} file at {1}", metadata.getFriendlyName(),
@@ -417,7 +416,7 @@ public abstract class AbstractDockerMojo extends AbstractMojo {
     }
 
     try {
-      return Files.readFirstLine(metadataFile, Charsets.UTF_8);
+      return Files.asCharSource(metadataFile, Charsets.UTF_8).readFirstLine();
     } catch (IOException e) {
       final String message =
           MessageFormat.format("Could not read {0} file at {1}", metadata.getFileName(),

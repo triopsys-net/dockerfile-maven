@@ -6,8 +6,11 @@ Since version 1.3.0, the plugin will automatically use any configuration in
 your `~/.dockercfg` or `~/.docker/config.json` file when pulling, pushing, or
 building images to private registries.
 
-Additionally the plugin will enable support for Google Container Registry if it
-is able to successfully load [Google's "Application Default Credentials"][ADC].
+### Google Container Registry Support
+
+Additionally the plugin supports for Google Container Registry if it
+is enabled (see below) and is able to successfully load 
+[Google's "Application Default Credentials"][ADC].
 The plugin will also load Google credentials from the file pointed to by the
 environment variable `DOCKER_GOOGLE_CREDENTIALS` if it is defined. Since GCR
 authentication requires retrieving short-lived access codes for the given
@@ -27,6 +30,14 @@ or [create a service account][service-acct] instead.
 
 [app-def-login]: https://cloud.google.com/sdk/gcloud/reference/auth/application-default/login
 [service-acct]: https://cloud.google.com/docs/authentication/getting-started#creating_a_service_account
+
+And also enable Google Container Registry for authentication in the configuration:
+
+```xml
+<configuration>
+  <googleContainerRegistryEnabled>true</googleContainerRegistryEnabled>
+</configuration>
+```
 
 ## Authenticating with maven settings.xml
 
@@ -68,7 +79,7 @@ Just add configuration similar to:
 
 ```xml
  <plugin>
-    <groupId>com.spotify</groupId>
+    <groupId>com.xenoamess.docker</groupId>
     <artifactId>dockerfile-maven-plugin</artifactId>
     <version>${version}</version>
     <configuration>
@@ -84,7 +95,7 @@ Just add configuration similar to:
 or simpler,
 ```xml
  <plugin>
-    <groupId>com.spotify</groupId>
+    <groupId>com.xenoamess.docker</groupId>
     <artifactId>dockerfile-maven-plugin</artifactId>
     <version>${version}</version>
     <configuration>

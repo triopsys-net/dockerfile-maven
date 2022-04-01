@@ -96,7 +96,7 @@ public class MainIT {
   private GenericContainer createFrontend(final Network network) {
     final String image;
     try {
-      image = Files.readFirstLine(new File("target/docker/image-name"), Charsets.UTF_8);
+      image = Files.asCharSource(new File("target/docker/image-name"), Charsets.UTF_8).readFirstLine();
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
