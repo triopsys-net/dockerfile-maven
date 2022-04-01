@@ -25,10 +25,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.apache.maven.plugin.MojoFailureException;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class TestRepoNameValidation {
-  public ExpectedException thrown = ExpectedException.none();
 
   @Test
   public void testSuccess() throws MojoFailureException {

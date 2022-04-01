@@ -31,11 +31,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +87,7 @@ public class BuildMojo extends AbstractDockerMojo {
   @Parameter(property = "dockerfile.tag")
   private String tag;
 
-  @Parameter(property = "dockerfile.tag")
+  @Parameter(property = "dockerfile.tags")
   private List<String> tags;
 
   /**
@@ -129,6 +126,12 @@ public class BuildMojo extends AbstractDockerMojo {
   @Parameter(property = "dockerfile.build.failure.ignore", defaultValue = "false")
   private boolean buildFailureIgnore;
 
+  /**
+   * Whether to force re-assignment of an already assigned tag.
+   */
+  @Parameter(property = "dockerfile.force", defaultValue = "true", required = true)
+  private boolean force;
+
   @Override
   protected void execute(DockerClient dockerClient)
           throws MojoExecutionException, MojoFailureException {
@@ -154,38 +157,51 @@ public class BuildMojo extends AbstractDockerMojo {
 
     List<String> tagsToBuild = select(tags, tag, null);
 
-    for(String tagToBuild : tagsToBuild) {
-      log.info("dockerfile: " + dockerfile);
-      log.info("contextDirectory: " + contextDirectory);
+    String tagToBuild = tagsToBuild.get(0);
 
-      Path dockerfilePath = null;
-      if (dockerfile != null) {
-        dockerfilePath = dockerfile.toPath();
-      }
-      final String imageId = buildImage(
-              dockerClient, log, verbose, contextDirectory.toPath(), dockerfilePath, repository, tagToBuild,
-              pullNewerImage, noCache, buildArgs, cacheFrom, squash);
+    log.info("dockerfile: " + dockerfile);
+    log.info("contextDirectory: " + contextDirectory);
 
-      if (imageId == null) {
-        log.warn("Docker build was successful, but no image was built");
-      }
-      else {
-        log.info(MessageFormat.format("Detected build of image with id {0}", imageId));
-        writeMetadata(Metadata.IMAGE_ID, imageId);
-      }
+    Path dockerfilePath = null;
+    if (dockerfile != null) {
+      dockerfilePath = dockerfile.toPath();
+    }
+    final String imageId = buildImage(
+            dockerClient, log, verbose, contextDirectory.toPath(), dockerfilePath, repository, tagToBuild,
+            pullNewerImage, noCache, buildArgs, cacheFrom, squash);
 
-      // Do this after the build so that other goals don't use the tag if it doesn't exist
-      if (repository != null) {
-        writeImageInfo(repository, tagToBuild);
-      }
+    if (imageId == null) {
+      log.warn("Docker build was successful, but no image was built");
+    }
+    else {
+      log.info(MessageFormat.format("Detected build of image with id {0}", imageId));
+      writeMetadata(Metadata.IMAGE_ID, imageId);
+    }
 
-      writeMetadata(log);
+    // Do this after the build so that other goals don't use the tag if it doesn't exist
+    if (repository != null) {
+      writeImageInfo(repository, tagToBuild);
+    }
 
-      if (repository == null) {
-        log.info(MessageFormat.format("Successfully built {0}", imageId));
-      }
-      else {
-        log.info(MessageFormat.format("Successfully built {0}", formatImageName(repository, tagToBuild)));
+    writeMetadata(log);
+
+    if (repository == null) {
+      log.info(MessageFormat.format("Successfully built {0}", imageId));
+    }
+    else {
+      log.info(MessageFormat.format("Successfully built {0}", formatImageName(repository, tagToBuild)));
+    }
+    
+    // If more tags are given, apply to image.
+    if (tagsToBuild.size() > 1) {
+      for (int i = 1; i < tagsToBuild.size(); i++) {
+        try {
+          String repoTag = repository + ':' + tagsToBuild.get(i);
+          dockerClient.tag(imageId, repoTag, force);
+          log.info(MessageFormat.format("Successfully tagged image {0} as {1}", imageId, repoTag));
+        } catch (DockerException | InterruptedException e) {
+          throw new MojoExecutionException("Could not tag Docker image", e);
+        }
       }
     }
   }
