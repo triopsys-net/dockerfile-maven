@@ -22,32 +22,44 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  
+
   <parent>
-    <groupId>com.xenoamess.it</groupId>
-    <artifactId>it-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>com.spotify.it</groupId>
+    <artifactId>build-into-multiple-tags</artifactId>
+    <version>1.2.3-SNAPSHOT</version>
   </parent>
+  
+  <artifactId>build-and-tag</artifactId>
 
-  <groupId>com.spotify.it</groupId>
-  <artifactId>advanced</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
+  <description>The Dockerfile is built into a repository with multiple custom tags</description>
 
-  <description>This project is an advanced example, simulating a real use-case</description>
-
-  <modules>
-    <module>backend</module>
-    <module>frontend</module>
-  </modules>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
   <build>
-    <extensions>
-      <extension>
+    <plugins>
+      <plugin>
         <groupId>@project.groupId@</groupId>
-        <artifactId>dockerfile-maven-extension</artifactId>
+        <artifactId>@project.artifactId@</artifactId>
         <version>@project.version@</version>
-      </extension>
-    </extensions>
+        <executions>
+          <execution>
+            <id>default</id>
+            <goals>
+              <goal>build</goal>
+            </goals>
+            <configuration>
+              <repository>test/build-into-multiple-tags</repository>
+              <tags>
+                <tag>${project.version}</tag>
+                <tag>latest</tag>
+                <tag>third</tag>
+              </tags>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 </project>

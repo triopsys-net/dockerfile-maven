@@ -44,7 +44,7 @@ For more examples, see the [integration test](./plugin/src/it) directory.
 
 In particular, the [advanced](./plugin/src/it/advanced) test showcases a
 full service consisting of two micro-services that are integration
-tested using `helios-testing`.
+tested.
 
 This configures the actual plugin to build your image with `mvn
 package` and push it with `mvn deploy`.  Of course you can also say
@@ -52,7 +52,7 @@ package` and push it with `mvn deploy`.  Of course you can also say
 
 ```xml
 <plugin>
-  <groupId>com.spotify</groupId>
+  <groupId>com.xenoamess.docker</groupId>
   <artifactId>dockerfile-maven-plugin</artifactId>
   <version>${dockerfile-maven-version}</version>
   <executions>
@@ -132,7 +132,7 @@ built and pushed at the correct times.
 ### Depend on Docker images of other services
 
 You can depend on the Docker information of another project, because
-this plugin attaches project metadata when it builds Docker images.
+this plugin attaches project metadata (Docker Info JAR) when it builds Docker images.
 Simply add this information to any project:
 
 ```xml
@@ -203,11 +203,11 @@ expected.
 
 ## Usage
 
-See [usage docs](https://github.com/spotify/dockerfile-maven/blob/master/docs/usage.md).
+See [usage docs](docs/usage.md).
 
 ## Authentication
 
-See [authentication docs](https://github.com/spotify/dockerfile-maven/blob/master/docs/authentication.md).
+See [authentication docs](docs/authentication.md).
 
 ## Releasing
 

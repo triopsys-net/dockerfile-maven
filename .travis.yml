@@ -15,8 +15,8 @@ install: true # This runs the "true" command in the install phase; thus skipping
 script:
   - |
     if [[ "$TRAVIS_BRANCH" == master && "$TRAVIS_PULL_REQUEST" == false && "$TRAVIS_JDK_VERSION" == "openjdk8" ]]
-    then mvn deploy -s travis-settings.xml
-    else mvn verify
+    then mvn -B deploy -s travis-settings.xml
+    else mvn -B verify
     fi
 
 cache:
