@@ -1,6 +1,8 @@
-FROM java
-MAINTAINER David Flemström <dflemstr@spotify.com>
-ENTRYPOINT ["/usr/bin/java", "-jar", "/usr/share/backend/backend.jar"]
+FROM eclipse-temurin:11-jre-alpine
 
-ADD target/lib /usr/share/backend/lib
-ADD target/backend.jar /usr/share/backend/backend.jar
+LABEL MAINTAINER="David Flemström <dflemstr@spotify.com>"
+
+COPY target/lib /usr/share/backend/lib
+COPY target/backend.jar /usr/share/backend/backend.jar
+
+ENTRYPOINT ["java", "-jar", "/usr/share/backend/backend.jar"]
