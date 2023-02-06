@@ -16,7 +16,7 @@
 
   <properties>
     <docker-client.version>8.18.2</docker-client.version>
-    <maven.version>3.8.6</maven.version>
+    <maven.version>3.9.0</maven.version>
   </properties>
 
   <dependencyManagement>
