@@ -218,6 +218,9 @@
           <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
           <settingsFile>src/it/settings.xml</settingsFile>
           <streamLogs>true</streamLogs>
+          <properties>
+            <org.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener>warn</org.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener>
+          </properties>
           <goals>
             <goal>clean</goal>
             <goal>verify</goal>
