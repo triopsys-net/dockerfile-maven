@@ -4,8 +4,8 @@
 
   <parent>
     <artifactId>dockerfile-maven</artifactId>
-    <groupId>com.xenoamess.docker</groupId>
-    <version>1.5.0-rc1</version>
+    <groupId>net.triopsys.docker</groupId>
+    <version>1.4.26-SNAPSHOT</version>
   </parent>
 
   <artifactId>dockerfile-maven-extension</artifactId>

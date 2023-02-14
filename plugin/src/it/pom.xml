@@ -2,7 +2,7 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.xenoamess.it</groupId>
+  <groupId>net.triopsys.docker.it</groupId>
   <artifactId>it-parent</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
@@ -13,9 +13,9 @@
   <dependencyManagement>  
     <dependencies>
       <dependency>
-        <groupId>com.xenoamess.docker</groupId>
+        <groupId>net.triopsys.docker</groupId>
         <artifactId>docker-client</artifactId>
-        <version>8.17.2</version>
+        <version>8.18.4-SNAPSHOT</version>
         <scope>test</scope>
       </dependency>
     </dependencies>
