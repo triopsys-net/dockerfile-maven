@@ -39,7 +39,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.xenoamess.docker</groupId>
+      <groupId>net.triopsys.docker</groupId>
       <artifactId>docker-client</artifactId>
       <scope>test</scope>
     </dependency>

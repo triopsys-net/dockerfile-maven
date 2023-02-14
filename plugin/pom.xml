@@ -3,9 +3,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.xenoamess.docker</groupId>
+    <groupId>net.triopsys.docker</groupId>
     <artifactId>dockerfile-maven</artifactId>
-    <version>1.4.25</version>
+    <version>1.4.26-SNAPSHOT</version>
   </parent>
 
   <artifactId>dockerfile-maven-plugin</artifactId>
@@ -15,7 +15,7 @@
   <description>Adds support for building Dockerfiles in Maven</description>
 
   <properties>
-    <docker-client.version>8.18.3</docker-client.version>
+    <docker-client.version>8.18.4-SNAPSHOT</docker-client.version>
     <maven.version>3.9.0</maven.version>
   </properties>
 
@@ -71,7 +71,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.xenoamess.docker</groupId>
+      <groupId>net.triopsys.docker</groupId>
       <artifactId>docker-client</artifactId>
       <version>${docker-client.version}</version>
     </dependency>
@@ -86,7 +86,7 @@
       <version>31.1-jre</version>
     </dependency>
     <dependency>
-      <groupId>com.xenoamess.docker</groupId>
+      <groupId>net.triopsys.docker</groupId>
       <artifactId>dockerfile-maven-extension</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -204,7 +204,7 @@
         <version>3.4.0</version>
         <dependencies>
           <dependency>
-            <groupId>com.xenoamess.docker</groupId>
+            <groupId>net.triopsys.docker</groupId>
             <artifactId>docker-client</artifactId>
             <version>${docker-client.version}</version>
           </dependency>
