@@ -1,0 +1,158 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index 7cb38f4..d57bf49 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -1,5 +1,43 @@
+ # Changelog
+ 
++## v1.4.25 (July 17 2022)
++- Updated dependencies including docker-client
++
++## v1.4.24 (January 20 2022)
++- Updated dependencies including docker-client
++
++## v1.4.23 (January 20 2022)
++- Removed plugin goals: exec & rmi
++- Do not shade docker-client dependency
++- Updated many dependencies and plugin versions
++
++## v1.4.22 (January 19 2022)
++- Add failure ignore settings
++
++## v1.4.21 (January 18 2022)
++- Add plugin goals: exec, remove & rmi
++- Depend on XenoAmess fork of docker-client
++
++## v1.4.20 (January 18 2022)
++- Fix building images under WSL
++- Fix logging of tag name during building
++
++## v1.4.19 (April 16 2020)
++- Added a consistent way to select the tags to be applied to build/push
++
++## v1.4.18 (April 15 2020)
++- Change: if `useMavenSettingsForAuth` is configured then this will be the only method used.
++
++## v1.4.17 (April 14 2020)
++- Disabled Google Container Registry authentication by default 
++
++## v1.4.16 (March 26 2020)
++- Add support for multiple tags in build/push
++
++## v1.4.15 (March 20 2020)
++- groupId changed to 'ca.vanzyl'
++- Dependency updates
++
+ ## v1.4.13 (October 15 2019)
+ - [**closed**] #308 Extend repository validation by allowing port number. [#309](https://github.com/spotify/dockerfile-maven/pull/309)
+ - [**closed**] doc [#318](https://github.com/spotify/dockerfile-maven/pull/318)
+diff --git a/docs/authentication.md b/docs/authentication.md
+index 4c26679..36382e2 100644
+--- a/docs/authentication.md
++++ b/docs/authentication.md
+@@ -42,7 +42,8 @@ And also enable Google Container Registry for authentication in the configuratio
+ ## Authenticating with maven settings.xml
+ 
+ Since version 1.3.6, you can authenticate using your maven settings.xml instead
+-of docker configuration.  Just add configuration similar to:
++of docker configuration. If specified, no other authentication method will be used.
++Just add configuration similar to:
+ 
+ ```xml
+ <configuration>
+diff --git a/docs/usage.md b/docs/usage.md
+index 61d52f3..0b07ee7 100644
+--- a/docs/usage.md
++++ b/docs/usage.md
+@@ -54,6 +54,7 @@ mvn clean package -Ddockerfile.build.failure.ignore
+ | `dockerfile.googleContainerRegistryEnabled` | Enables Google Container Registry authentication support. | no | false |
+ | `dockerfile.password` | Password for connecting to the Docker repository | no | none |
+ | `dockerfile.retryCount` | Certain Docker operations can fail due to mysterious Docker daemon conditions. Sometimes it might be worth it to just retry operations until they succeed.  This parameter controls how many times operations should be retried before they fail. By default, an extra attempt (so up to two attempts) is made before failing. | no | 1 |
++| `dockerfile.useMavenSettingsForAuth` | Authenticate using `server` credentials in `settings.xml` file | no | none |
+ | `dockerfile.username` | Username for connecting to the Docker repository | no | none |
+ | `dockerfile.useProxy` | Allows connecting to Docker Daemon using HTTP proxy if set | no | false |
+ | `dockerfile.verbose` | Output a verbose log when performing various operations. | no | false |
+diff --git a/plugin/src/main/java/com/spotify/plugin/dockerfile/RemoveMojo.java b/plugin/src/main/java/com/spotify/plugin/dockerfile/RemoveMojo.java
+index 3ab479a..601788b 100644
+--- a/plugin/src/main/java/com/spotify/plugin/dockerfile/RemoveMojo.java
++++ b/plugin/src/main/java/com/spotify/plugin/dockerfile/RemoveMojo.java
+@@ -20,10 +20,13 @@
+ 
+ package com.spotify.plugin.dockerfile;
+ 
++import java.text.MessageFormat;
+ import java.util.List;
+ 
+ import com.spotify.docker.client.DockerClient;
+ import com.spotify.docker.client.exceptions.DockerException;
++import com.spotify.docker.client.messages.RemovedImage;
++
+ import org.apache.maven.plugin.MojoExecutionException;
+ import org.apache.maven.plugin.MojoFailureException;
+ import org.apache.maven.plugin.logging.Log;
+@@ -104,8 +107,12 @@ public class RemoveMojo extends AbstractDockerMojo {
+ 
+     for(String tagToRemove : tagsToRemove) {
+       try {
+-        dockerClient
+-                .removeImage(formatImageName(repository, tagToRemove));
++        List<RemovedImage> removedImages =  dockerClient
++            .removeImage(formatImageName(repository, tagToRemove));
++            
++        for (RemovedImage removedImage : removedImages) {
++            log.info(MessageFormat.format("Removed image: {0}", removedImage.imageId()));
++        }
+       }
+       catch (DockerException | InterruptedException e) {
+         throw new MojoExecutionException("Could not remove image", e);
+diff --git a/pom.xml b/pom.xml
+index 763d1e5..3fc590b 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -24,6 +24,8 @@
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++    <!-- Minimum supported Maven version for building the project-->
++    <minimum.maven.version>3.6.0</minimum.maven.version>
+   </properties>
+ 
+   <scm>
+@@ -37,8 +39,8 @@
+         <plugin>
+           <artifactId>maven-checkstyle-plugin</artifactId>
+           <configuration>
+-            <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+-            <testSourceDirectory>${project.build.testSourceDirectory}</testSourceDirectory>
++            <sourceDirectories>${project.build.sourceDirectory}</sourceDirectories>
++            <testSourceDirectories>${project.build.testSourceDirectory}</testSourceDirectories>
+             <includeTestSourceDirectory>true</includeTestSourceDirectory>
+             <violationSeverity>warning</violationSeverity>
+             <skip>true</skip>
+@@ -55,6 +57,26 @@
+           <updateReleaseInfo>true</updateReleaseInfo>
+         </configuration>
+       </plugin>
++      <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-enforcer-plugin</artifactId>
++        <version>3.1.0</version>
++        <executions>
++          <execution>
++            <id>enforce-maven</id>
++            <goals>
++              <goal>enforce</goal>
++            </goals>
++            <configuration>
++              <rules>
++                <requireMavenVersion>
++                  <version>${minimum.maven.version}</version>
++                </requireMavenVersion>
++              </rules>
++            </configuration>
++          </execution>
++        </executions>
++      </plugin>
+     </plugins>
+   </build>
+ 
