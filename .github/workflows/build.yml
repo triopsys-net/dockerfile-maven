@@ -46,4 +46,4 @@ jobs:
           docker version
           docker info
           docker pull testcontainers/ryuk:0.3.3
-          mvn -B clean install
+          mvn --batch-mode clean install "-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
