@@ -158,9 +158,19 @@ public class BuildMojo extends AbstractDockerMojo {
     List<String> tagsToBuild = select(tags, tag, null);
 
     String tagToBuild = tagsToBuild.get(0);
-
-    log.info("dockerfile: " + dockerfile);
+    
+    String strDockerFile = "'Dockerfile' (default)";
+    if (dockerfile != null) {
+      strDockerFile = dockerfile.getPath();
+    }
+    log.info("dockerfile: " + strDockerFile);
     log.info("contextDirectory: " + contextDirectory);
+    
+    log.info("tags: " + String.join(", ", tagsToBuild));
+    if (verbose && buildArgs.size() > 0) {
+      log.info("buildArgs:");
+      buildArgs.forEach((k, v) -> log.info(k + " = " + v));
+    }
 
     Path dockerfilePath = null;
     if (dockerfile != null) {
@@ -311,7 +321,11 @@ public class BuildMojo extends AbstractDockerMojo {
                                                  @Nullable Path dockerfile)
       throws MojoFailureException {
 
-    log.info("Path(dockerfile): " + dockerfile);
+    String strDockerfile = "'Dockerfile' (default)";
+    if (dockerfile != null) {
+      strDockerfile = dockerfile.toString();
+    }
+    log.info("Path(dockerfile): " + strDockerfile);
     log.info("Path(contextDirectory): " + contextDirectory);
 
     if (dockerfile == null

@@ -20,10 +20,13 @@
 
 package com.spotify.plugin.dockerfile;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import com.spotify.docker.client.DockerClient;
 import com.spotify.docker.client.exceptions.DockerException;
+import com.spotify.docker.client.messages.RemovedImage;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
@@ -104,8 +107,12 @@ public class RemoveMojo extends AbstractDockerMojo {
 
     for(String tagToRemove : tagsToRemove) {
       try {
-        dockerClient
-                .removeImage(formatImageName(repository, tagToRemove));
+        List<RemovedImage> removedImages =  dockerClient
+            .removeImage(formatImageName(repository, tagToRemove));
+            
+        for (RemovedImage removedImage : removedImages) {
+            log.info(MessageFormat.format("Removed image: {0}", removedImage.imageId()));
+        }
       }
       catch (DockerException | InterruptedException e) {
         throw new MojoExecutionException("Could not remove image", e);
