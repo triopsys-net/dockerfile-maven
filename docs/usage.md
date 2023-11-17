@@ -54,6 +54,7 @@ mvn clean package -Ddockerfile.build.failure.ignore
 | `dockerfile.googleContainerRegistryEnabled` | Enables Google Container Registry authentication support. | no | false |
 | `dockerfile.password` | Password for connecting to the Docker repository | no | none |
 | `dockerfile.retryCount` | Certain Docker operations can fail due to mysterious Docker daemon conditions. Sometimes it might be worth it to just retry operations until they succeed.  This parameter controls how many times operations should be retried before they fail. By default, an extra attempt (so up to two attempts) is made before failing. | no | 1 |
+| `dockerfile.useMavenSettingsForAuth` | Authenticate using `server` credentials in `settings.xml` file | no | none |
 | `dockerfile.username` | Username for connecting to the Docker repository | no | none |
 | `dockerfile.useProxy` | Allows connecting to Docker Daemon using HTTP proxy if set | no | false |
 | `dockerfile.verbose` | Output a verbose log when performing various operations. | no | false |

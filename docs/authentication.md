@@ -42,7 +42,8 @@ And also enable Google Container Registry for authentication in the configuratio
 ## Authenticating with maven settings.xml
 
 Since version 1.3.6, you can authenticate using your maven settings.xml instead
-of docker configuration.  Just add configuration similar to:
+of docker configuration. If specified, no other authentication method will be used.
+Just add configuration similar to:
 
 ```xml
 <configuration>

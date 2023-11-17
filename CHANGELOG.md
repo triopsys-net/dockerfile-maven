@@ -1,5 +1,44 @@
 # Changelog
 
+## v1.4.25 (July 17 2022)
+- Updated dependencies including docker-client
+
+## v1.4.24 (January 20 2022)
+- Updated dependencies including docker-client
+
+## v1.4.23 (January 20 2022)
+- Removed plugin goals: exec & rmi
+- Do not shade docker-client dependency
+- Updated many dependencies and plugin versions
+
+## v1.4.22 (January 19 2022)
+- Add failure ignore settings
+
+## v1.4.21 (January 18 2022)
+- Add plugin goals: exec, remove & rmi
+- Depend on XenoAmess fork of docker-client
+
+## v1.4.20 (January 18 2022)
+- Fix building images under WSL
+- Fix logging of tag name during building
+- groupId changed to 'com.xenoamess.docker'
+
+## v1.4.19 (April 16 2020)
+- Added a consistent way to select the tags to be applied to build/push
+
+## v1.4.18 (April 15 2020)
+- Change: if `useMavenSettingsForAuth` is configured then this will be the only method used.
+
+## v1.4.17 (April 14 2020)
+- Disabled Google Container Registry authentication by default 
+
+## v1.4.16 (March 26 2020)
+- Add support for multiple tags in build/push
+
+## v1.4.15 (March 20 2020)
+- groupId changed to 'ca.vanzyl'
+- Dependency updates
+
 ## v1.4.13 (October 15 2019)
 - [**closed**] #308 Extend repository validation by allowing port number. [#309](https://github.com/spotify/dockerfile-maven/pull/309)
 - [**closed**] doc [#318](https://github.com/spotify/dockerfile-maven/pull/318)
